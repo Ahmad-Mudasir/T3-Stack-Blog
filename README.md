@@ -31,7 +31,7 @@ Follow these steps to get the project up and running on your local machine.
 ### 1. Clone the Repository
 
 \`\`\`bash
-git clone <your-repository-url>
+git clone ttps://github.com/Ahmad-Mudasir/T3-Stack-Blog.git
 cd social-department
 \`\`\`
 
