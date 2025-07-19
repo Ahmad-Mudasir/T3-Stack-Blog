@@ -33,7 +33,7 @@ export function DeletePostButton({
       const result = await deletePost(postId);
 
       if (!result.success) {
-        alert(result.error || "Failed to delete post");
+        alert(result.error ?? "Failed to delete post");
       }
       // The revalidatePath in the server action will handle the UI refresh
     } catch (error) {

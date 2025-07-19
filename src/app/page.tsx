@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Calendar, MessageCircle, Heart, Share2, User } from "lucide-react";
 import { clerkClient } from "@clerk/nextjs/server";
 import { DeletePostButton } from "./_components/delete-post-button";
+import Image from "next/image";
 
 export default async function HomePage() {
   const user = await currentUser(); // Check if user is signed in
@@ -87,9 +88,11 @@ export default async function HomePage() {
                 <div className="flex items-center space-x-3">
                   <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-500 to-purple-500">
                     {post.user?.imageUrl ? (
-                      <img
-                        src={post.user.imageUrl || "/placeholder.svg"}
-                        alt={post.user.firstName || "User"}
+                      <Image
+                        src={post.user.imageUrl ?? "/placeholder.svg"}
+                        alt={post.user.firstName ?? "User"}
+                        width={40}
+                        height={40}
                         className="h-full w-full object-cover"
                       />
                     ) : (
@@ -100,11 +103,9 @@ export default async function HomePage() {
                     <p className="font-medium text-gray-900">
                       {post.user?.firstName && post.user?.lastName
                         ? `${post.user.firstName} ${post.user.lastName}`
-                        : post.user?.username
-                          ? post.user.username
-                          : post.user?.emailAddresses?.[0]?.emailAddress
-                            ? post.user.emailAddresses[0].emailAddress
-                            : "Anonymous User"}
+                        : (post.user?.username ??
+                          post.user?.emailAddresses?.[0]?.emailAddress ??
+                          "Anonymous User")}
                     </p>
                     <div className="flex items-center space-x-1 text-sm text-gray-500">
                       <Calendar className="h-4 w-4" />
@@ -151,7 +152,9 @@ export default async function HomePage() {
                 <div className="flex items-center space-x-4">
                   <button className="group/share flex cursor-pointer items-center space-x-2 text-gray-500 transition-colors duration-200 hover:text-green-500">
                     <Share2 className="h-5 w-5 transition-transform duration-200 group-hover/share:scale-110" />
-                    <span className="text-sm font-medium">Share</span>
+                    <span className="cursor-pointer text-sm font-medium">
+                      Share
+                    </span>
                   </button>
                   <DeletePostButton
                     postId={post.id}
